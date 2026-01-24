@@ -9,13 +9,15 @@ export  const register= async (req,res)=>{
     try {
         const {username,email, phoneNumber,password,role}=req.body;
         if(!username || !email || !phoneNumber || !password || !role){
-            return res.status(400).json({message:"All fields are required"});
+            return res.status(400).json({
+                message:"All fields are required"});
         }
 
         const userExists=await User.findOne({email});
         
         if(userExists){
-            return res.status(400).json({message:"User already exists"});
+            return res.status(400).json({
+                message:"User already exists"});
         }
 
         const hashedPassword=await bcrypt.hash(password,10);
@@ -40,21 +42,24 @@ export const login=async (req,res)=>{
         try {
             const {email,password,role}=req.body;
             if(!email || !password || !role){
-                return res.status(400).json({message:"All fields are required"});
+                return res.status(400).json({
+                    message:"All fields are required"});
             }
             let user=await User.findOne({email});
             if(!user){
-                return res.status(400).json({message:"User not found"});
+                return res.status(400).json({
+                    message:"User not found"});
             }
             const isPasswordCorrect=await bcrypt.compare(password,user.password);
             if(!isPasswordCorrect){
-                return res.status(400).json({message:"Invalid credentials"});
+                return res.status(400).json({
+                    message:"Invalid credentials"});
             }
             if(role!=user.role){
                 return res.status(400).json({message:"Invalid credentials"});
             }
             const tokenData={
-                userid:user._id
+                userId:user._id
                 
             }
             const token=await jwt.sign(tokenData,process.env.SECRET_KEY,{expiresIn:"1d"});
@@ -67,7 +72,9 @@ export const login=async (req,res)=>{
                 profile:user.profile
             }
 
-            return res.status(200).cookie("token",token,{maxAge:24*60*60*1000,  httpOnly:true,sameSite:"strict",secure:true}).json({message:`Welcome Back ${user.username}  `});    
+            return res.status(200).cookie("token",token,
+                {maxAge:24*60*60*1000,  httpOnly:true,sameSite:"strict",secure:true}).json(
+                    {message:`Welcome Back ${user.username}  `});    
 
      
 

@@ -15,8 +15,8 @@ const applicationSchema = new mongoose.Schema(
     },
 
     resume: {
-      type: String, // Cloudinary URL or file path
-      required: true
+      type: String, 
+      // required: true
     },
 
     

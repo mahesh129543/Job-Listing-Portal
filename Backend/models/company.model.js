@@ -11,7 +11,7 @@ const companySchema = new mongoose.Schema(
 
     description: {
       type: String,
-      required: true
+      
     },
 
     website: {
@@ -21,18 +21,18 @@ const companySchema = new mongoose.Schema(
 
     location: {
       type: String,
-      required: true
+     
     },
 
     
 
     logo: {
-      type: String // Cloudinary URL or image path
+      type: String 
     },
 
    
 
-    createdBy: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true
